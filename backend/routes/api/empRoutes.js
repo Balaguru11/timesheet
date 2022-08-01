@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const { isEmployee } = require("../../middlewares/matchRole");
 
 const {
   allMyEvents,
@@ -8,6 +9,8 @@ const {
   editAnEvent,
   deleteAnEvent,
 } = require("../../controllers/empController");
+
+router.use(isEmployee);
 
 router.route("/events").get(allMyEvents).post(addNewEvent);
 

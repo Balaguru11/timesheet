@@ -4,6 +4,29 @@ const jwt = require("jsonwebtoken");
 //Models
 const UserModel = require("../model/userModel");
 const EventModel = require("../model/eventModel");
+const AdminModel = require("../model/adminModel");
+
+// exports.adminLogin = async (req, res) => {
+//   const { email, password } = req.body;
+//   if (!email || !password) {
+//     return res.status(400);
+//   }
+
+//   const checkAdmin = await AdminModel.find({ email: email, role: "Admin" });
+
+//   if (checkAdmin) {
+//     return res.json({
+//       status: "duplicate_admin",
+//       msg: ".",
+//     });
+//   }
+
+//   // const newAdmin = await AdminModel.create({
+//   //   email: email,
+//   //   password: password,
+//   // });
+
+// };
 
 exports.loginUser = async (req, res) => {
   try {
@@ -54,7 +77,7 @@ exports.loginUser = async (req, res) => {
     );
 
     isUser.refreshToken = refreshToken;
-    const updateCurrentUser = await userExists.save();
+    const updateCurrentUser = await isUser.save();
 
     if (updateCurrentUser) {
       res.json({

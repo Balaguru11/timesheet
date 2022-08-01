@@ -22,13 +22,13 @@ app.get("/", (req, res) => {
   res.send("Welcome to the first Page");
 });
 
+const adminRoute = require("./routes/api/adminRoute");
+app.use("/admin", adminRoute);
 const authRoute = require("./routes/authRoute");
 app.use("/auth", authRoute);
 app.use(verifyJWT);
-
 const employeeRoute = require("./routes/api/empRoutes");
 const managerRoute = require("./routes/api/managerRoutes");
-
 app.use("/employee", employeeRoute);
 app.use("/manager", managerRoute);
 

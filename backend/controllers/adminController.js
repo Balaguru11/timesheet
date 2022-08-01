@@ -19,9 +19,12 @@ exports.addNewEmployee = async (req, res) => {
     if (!name || !email || !mobile || !password || !role) {
       res.status(400).json({ msg: "Data must be provided in all the fields" });
     }
+
     // find for duplicate User with email & mobile Number
 
-    const isRegd = await UserModel.find({ email: email, mobile: mobile });
+    const isRegd = await UserModel.findOne({ email: email, mobile: mobile });
+
+    console.log(isRegd);
     if (isRegd) {
       return res.json({
         status: "User_found",
