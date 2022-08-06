@@ -6,6 +6,7 @@ const UserModel = require("../model/userModel");
 exports.allEmployees = async (req, res) => {
   try {
     const allEmployees = await UserModel.find();
+    console.log(allEmployees);
     res.json(allEmployees);
   } catch (err) {
     console.log(err);
@@ -58,6 +59,7 @@ exports.addNewEmployee = async (req, res) => {
 exports.getOneEmployee = async (req, res) => {
   try {
     const employeeid = req.params.employeeId;
+    console.log(employeeid);
 
     const employeeData = await UserModel.findOne({ _id: employeeid });
 
@@ -73,6 +75,7 @@ exports.editEmployeeStatus = async (req, res) => {
     const employeeid = req.params.employeeId;
 
     const { employeeStatus, role } = req.body;
+    console.log(employeeStatus, role);
 
     const updateEmployee = await UserModel.updateOne(
       { _id: employeeid },
@@ -95,7 +98,8 @@ exports.deleteAnEmployee = async (req, res) => {
   try {
     const employeeid = req.params.employeeId;
     const deleteUser = await UserModel.deleteOne({ _id: employeeid });
-    req.json(deleteUser);
+    console.log(deleteUser);
+    res.json(deleteUser);
   } catch (err) {
     console.log(err);
   }

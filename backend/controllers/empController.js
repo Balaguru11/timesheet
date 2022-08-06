@@ -4,11 +4,12 @@ const EmployeeModel = require("../model/userModel");
 
 exports.allMyEvents = async (req, res) => {
   const user = req.user;
+  console.log(user);
   try {
     const myEvents = await EventModel.find({
-      createdBy: user._id,
+      createdBy: user.user_id,
     });
-
+    console.log(myEvents);
     res.json(myEvents);
   } catch (err) {
     console.log(err);
@@ -18,24 +19,40 @@ exports.allMyEvents = async (req, res) => {
 exports.addNewEvent = async (req, res) => {
   try {
     const user = req.user;
-    const { eventTitle, eventDesc } = req.body;
+    const { title, notes, startDate, endDate, allDay } = req.body;
 
-    if (!eventTitle || !eventDesc) {
-      return res
-        .status(400)
-        .json({ msg: "Event title or Description is left blank" });
+    if (!title) {
+      return res.status(400).json({ msg: "All fields required" });
     }
 
     const newEvent = await EventModel.create({
-      eventTitle: eventTitle,
-      eventDesc: eventDesc,
-      // startedAt: new Date(),
-      // eventStatus:
+      title: title,
+      notes: notes,
+      startDate: startDate,
+      endDate: endDate,
+      allDay: allDay,
+      eventStatus: "Started",
       createdBy: user.user_id,
     });
 
-    console.log(newEvent);
     res.json(newEvent);
+
+    // const { eventTitle, evetDesc, endDate } = req.body;
+
+    // if (!title || !endDate || !startDate) {
+    //   return res.status(400).json({ msg: "All fields required" });
+    // }
+
+    // const newEvent = await EventModel.create({
+    //   eventTitle: eventTitle,
+    //   evetDesc: evetDesc,
+    //   startDate: new Date(),
+    //   endDate: endDate,
+    //   eventStatus: "Started",
+    //   createdBy: user.user_id,
+    // });
+
+    // res.json(newEvent);
   } catch (err) {
     console.log(err);
   }
@@ -62,12 +79,27 @@ exports.editAnEvent = async (req, res) => {
     const user = req.user;
     const eventId = req.params.eventId;
 
-    const { eventTitle, eventDesc } = req.body;
+    // const { eventTitle, eventDesc, endDate } = req.body;
+    // const updateEvent = await EventModel.updateOne(
+    //   {
+    //     _id: eventId,
+    //     createdBy: user.user_id,
+    //   },
+    //   {
+    //     $set: {
+    //       eventTitle: eventTitle,
+    //       eventDesc: eventDesc,
+    //       endDate: endDate,
+    //     },
+    //   }
+    // );
+    // console.log("Update Event", updateEvent);
+    // res.json(updateEvent);
 
-    if (!eventTitle || !eventDesc) {
-      return res
-        .statu(400)
-        .json({ msg: "Event title / description cannot be empty" });
+    const { title, notes, startDate, endDate, allDay } = req.body;
+
+    if (!title || !endDate || !startDate) {
+      return res.status(400).json({ msg: "All fields required" });
     }
 
     const updateEvent = await EventModel.updateOne(
@@ -77,14 +109,15 @@ exports.editAnEvent = async (req, res) => {
       },
       {
         $set: {
-          eventTitle: eventTitle,
-          eventDesc: eventDesc,
+          title: title,
+          notes: notes,
+          startDate: startDate,
+          endDate: endDate,
+          allDay: allDay,
         },
       }
     );
-
     console.log("Update Event", updateEvent);
-
     res.json(updateEvent);
   } catch (err) {
     console.log(err);
@@ -96,6 +129,10 @@ exports.deleteAnEvent = async (req, res) => {
     const user = req.user;
     const eventId = req.params.eventId;
 
+    // const today = new Date();
+    // const eventData = await EventModel.fineOne({ _id: eventId });
+
+    // if (eventData && eventData?.startDate < today) {
     const deleteEvent = await EventModel.deleteOne({
       _id: eventId,
       createdBy: user.user_id,
@@ -103,6 +140,8 @@ exports.deleteAnEvent = async (req, res) => {
 
     console.log("deleted Event", deleteEvent);
     res.json(deleteEvent);
+    // }
+    // res.json({ ststus: "event_error", msg: "Event couldnot be deleted" });
   } catch (err) {
     console.log(err);
   }

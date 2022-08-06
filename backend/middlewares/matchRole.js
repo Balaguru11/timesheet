@@ -29,3 +29,18 @@ exports.isManager = (req, res, next) => {
     console.log(err);
   }
 };
+exports.isAdmin = (req, res, next) => {
+  try {
+    const user = req.user;
+
+    if (user.role !== "Admin") {
+      return res.json({
+        status: "authority_error",
+        msg: "You are not authorized to do this action.",
+      });
+    }
+    next();
+  } catch (err) {
+    console.log(err);
+  }
+};

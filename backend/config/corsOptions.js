@@ -12,6 +12,7 @@ const corsOptions = {
       callback(new Error("Cors cannot allow this origin"));
     }
   },
+  credentials: true,
   optionSuccessStatus: 200,
 };
 

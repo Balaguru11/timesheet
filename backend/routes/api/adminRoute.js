@@ -14,6 +14,10 @@ const {
   deleteAnEmployee,
 } = require("../../controllers/adminController");
 
+const { isAdmin } = require("../../middlewares/matchRole");
+
+adminRouter.use(isAdmin);
+
 adminRouter.route("/employees").get(allEmployees).post(addNewEmployee);
 
 adminRouter

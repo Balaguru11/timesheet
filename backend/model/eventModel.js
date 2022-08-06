@@ -2,16 +2,37 @@
 
 const mongoose = require("mongoose");
 
+// const eventSchema = new mongoose.Schema(
+//   {
+//     eventTitle: { type: String, required: true },
+//     eventDesc: { type: String, required: true },
+//     startDate: { type: Date, required: true, default: new Date() },
+//     endDate: { type: Date, required: true },
+//     eventStatus: {
+//       type: String,
+//       required: true,
+//       enum: ["Started", "In Progress", "Completed"],
+//     },
+//     createdBy: {
+//       type: mongoose.Schema.Types.ObjectId,
+//       ref: "User",
+//       required: true,
+//     },
+//   },
+//   { timestamps: true }
+// );
+
 const eventSchema = new mongoose.Schema(
   {
-    eventTitle: { type: "string", required: true },
-    eventDesc: { type: "string", required: true },
-    startedAt: { type: "date", required: true, default: new Date() },
+    title: { type: String, required: true },
+    allDay: { type: String },
+    notes: { type: String, required: true },
+    startDate: { type: Date, required: true },
+    endDate: { type: Date, required: true },
     eventStatus: {
-      type: "string",
+      type: String,
       required: true,
       enum: ["Started", "In Progress", "Completed"],
-      default: "Started",
     },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,

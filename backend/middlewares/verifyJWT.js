@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 
 module.exports = (req, res, next) => {
   const authFromHeader = req.headers.authorization || req.headers.Authorization;
+  console.log("Verify JWT Auth", authFromHeader);
 
   if (
     authFromHeader === undefined ||

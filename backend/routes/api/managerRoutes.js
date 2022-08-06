@@ -8,14 +8,23 @@ const managerRoute = express.Router();
 const { isManager } = require("../../middlewares/matchRole");
 
 const {
-  getAllEmpEvengts,
+  getAllEmpEvents,
   todayEventsOnly,
+  getAllEmployees,
+  getOneEmpData,
+  getOneEmpEvents,
 } = require("../../controllers/managerController");
 
 managerRoute.use(isManager);
 
-managerRoute.route("/events").get(getAllEmpEvengts);
+managerRoute.get("/employees", getAllEmployees);
 
-managerRoute.get("/events/today", todayEventsOnly);
+managerRoute.get("/employees/:employeeId", getOneEmpData);
+
+managerRoute.route("/events").get(getAllEmpEvents);
+
+managerRoute.route("/events/:employeeId").get(getOneEmpEvents);
+
+managerRoute.get("/today-events", todayEventsOnly);
 
 module.exports = managerRoute;
